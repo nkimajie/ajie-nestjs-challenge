@@ -1,10 +1,13 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRecordRequestDTO } from '../../dtos/create-record.request.dto';
-import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../../enum/record.enum';
 import { UpdateRecordRequestDTO } from '../../dtos/update-record.request.dto';
 import { Record as RecordDocument } from '../../schemas/record.schema';
-import { RecordService, PaginatedRecords } from '../../services/record/record.service';
+import {
+  RecordService,
+  PaginatedRecords,
+} from '../../services/record/record.service';
 import { RecordQueryDto } from '../../dtos/record-query.dto';
 
 @ApiTags('records')
@@ -43,7 +46,8 @@ export class RecordController {
 
   @Get()
   @ApiOperation({
-    summary: 'Search records with filters, pagination, and optional full-text query',
+    summary:
+      'Search records with filters, pagination, and optional full-text query',
   })
   @ApiResponse({
     status: 200,

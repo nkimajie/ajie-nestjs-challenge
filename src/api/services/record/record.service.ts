@@ -13,7 +13,7 @@ import { CreateRecordRequestDTO } from '../../dtos/create-record.request.dto';
 import { UpdateRecordRequestDTO } from '../../dtos/update-record.request.dto';
 import { RecordQueryDto } from '../../dtos/record-query.dto';
 import { MusicBrainzService } from '../musicbrainz/musicbrainz.service';
-import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../../enum/record.enum';
 
 export interface PaginatedRecords {
   items: RecordDocument[];
@@ -52,29 +52,24 @@ export class RecordService {
 
   async create(dto: CreateRecordRequestDTO): Promise<RecordDocument> {
     let tracklist: string[] = [];
-    if (dto.mbid?.trim()) {
-      tracklist = await this.musicBrainz.getTracklistForRelease(dto.mbid);
+    if (dto?.mbid?.trim()) {
+      tracklist = await this.musicBrainz.getTracklistForRelease(dto?.mbid);
     }
 
     try {
       const created = await this.recordModel.create({
-        artist: dto.artist,
-        album: dto.album,
-        price: dto.price,
-        qty: dto.qty,
-        format: dto.format,
-        category: dto.category,
-        mbid: dto.mbid,
+        artist: dto?.artist,
+        album: dto?.album,
+        price: dto?.price,
+        qty: dto?.qty,
+        format: dto?.format,
+        category: dto?.category,
+        mbid: dto?.mbid,
         tracklist,
       });
       await this.invalidateListCache();
       return created;
     } catch (err: unknown) {
-      if (this.isDuplicateKeyError(err)) {
-        throw new ConflictException(
-          'A record with this artist, album, and format already exists.',
-        );
-      }
       throw err;
     }
   }
@@ -128,11 +123,6 @@ export class RecordService {
       await this.invalidateListCache();
       return updated;
     } catch (err: unknown) {
-      if (this.isDuplicateKeyError(err)) {
-        throw new ConflictException(
-          'A record with this artist, album, and format already exists.',
-        );
-      }
       throw err;
     }
   }
@@ -140,10 +130,12 @@ export class RecordService {
   async findManyPaginated(query: RecordQueryDto): Promise<PaginatedRecords> {
     const cacheKey = this.cacheKeyForQuery(query);
     const cached = await this.cache.get<PaginatedRecords>(cacheKey);
-    if (cached) return cached;
+    if (cached){ 
+      return cached;
+    }
 
-    const page = query.page ?? 1;
-    const limit = Math.min(query.limit ?? 20, 100);
+    const page = query?.page ?? 1;
+    const limit = Math.min(query?.limit ?? 20, 100);
     const skip = (page - 1) * limit;
 
     const filter = this.buildFilter(query);
@@ -174,21 +166,21 @@ export class RecordService {
   private buildFilter(query: RecordQueryDto): FilterQuery<RecordDocument> {
     const filter: FilterQuery<RecordDocument> = {};
 
-    if (query.q?.trim()) {
-      filter.$text = { $search: query.q.trim() };
+    if (query?.q?.trim()) {
+      filter.$text = { $search: query?.q.trim() };
     }
 
-    if (query.artist?.trim()) {
-      filter.artist = this.caseInsensitiveContains(query.artist);
+    if (query?.artist?.trim()) {
+      filter.artist = this.caseInsensitiveContains(query?.artist);
     }
-    if (query.album?.trim()) {
-      filter.album = this.caseInsensitiveContains(query.album);
+    if (query?.album?.trim()) {
+      filter.album = this.caseInsensitiveContains(query?.album);
     }
-    if (query.format) {
-      filter.format = query.format as RecordFormat;
+    if (query?.format) {
+      filter.format = query?.format as RecordFormat;
     }
-    if (query.category) {
-      filter.category = query.category as RecordCategory;
+    if (query?.category) {
+      filter.category = query?.category as RecordCategory;
     }
 
     return filter;
@@ -197,14 +189,5 @@ export class RecordService {
   private caseInsensitiveContains(value: string): RegExp {
     const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return new RegExp(escaped, 'i');
-  }
-
-  private isDuplicateKeyError(err: unknown): boolean {
-    return (
-      typeof err === 'object' &&
-      err !== null &&
-      'code' in err &&
-      (err as { code: number }).code === 11000
-    );
   }
 }

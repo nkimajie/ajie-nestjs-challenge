@@ -8,7 +8,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { RecordCategory, RecordFormat } from '../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../enum/record.enum';
 
 export class RecordQueryDto {
   @ApiPropertyOptional({

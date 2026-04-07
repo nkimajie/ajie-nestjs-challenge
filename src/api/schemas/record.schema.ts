@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { RecordFormat, RecordCategory } from './record.enum';
+import { RecordFormat, RecordCategory } from '../enum/record.enum';
 
 @Schema({ timestamps: true })
 export class Record extends Document {

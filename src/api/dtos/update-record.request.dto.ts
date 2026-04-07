@@ -8,7 +8,7 @@ import {
   IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { RecordFormat, RecordCategory } from '../schemas/record.enum';
+import { RecordFormat, RecordCategory } from '../enum/record.enum';
 
 export class UpdateRecordRequestDTO {
   @ApiProperty({

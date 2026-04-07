@@ -3,7 +3,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { RecordService } from './record.service';
 import { MusicBrainzService } from '../musicbrainz/musicbrainz.service';
-import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../../enum/record.enum';
 describe('RecordService', () => {
   let service: RecordService;
   let recordModel: {
@@ -62,7 +62,9 @@ describe('RecordService', () => {
       mbid: 'some-mbid',
     });
 
-    expect(musicBrainz.getTracklistForRelease).toHaveBeenCalledWith('some-mbid');
+    expect(musicBrainz.getTracklistForRelease).toHaveBeenCalledWith(
+      'some-mbid',
+    );
     expect(recordModel.create).toHaveBeenCalledWith(
       expect.objectContaining({ tracklist: ['A', 'B'] }),
     );
@@ -79,7 +81,9 @@ describe('RecordService', () => {
         }),
       }),
     });
-    recordModel.countDocuments.mockReturnValue({ exec: jest.fn().mockResolvedValue(0) });
+    recordModel.countDocuments.mockReturnValue({
+      exec: jest.fn().mockResolvedValue(0),
+    });
 
     const q = {};
     const first = await service.findManyPaginated(q);

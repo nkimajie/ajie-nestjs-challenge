@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { getModelToken } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { RecordFormat, RecordCategory } from '../src/api/schemas/record.enum';
+import { RecordFormat, RecordCategory } from '../src/api/enum/record.enum';
 
 jest.setTimeout(120_000);
 

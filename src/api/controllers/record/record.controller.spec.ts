@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RecordController } from './record.controller';
 import { RecordService } from '../../services/record/record.service';
 import { CreateRecordRequestDTO } from '../../dtos/create-record.request.dto';
-import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../../enum/record.enum';
 
 describe('RecordController', () => {
   let recordController: RecordController;

@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { getModelToken } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { RecordFormat, RecordCategory } from '../src/api/schemas/record.enum';
+import { RecordFormat, RecordCategory } from '../src/api/enum/record.enum';
 
 jest.setTimeout(120_000);
 
@@ -69,5 +69,15 @@ describe('OrderController (e2e)', () => {
 
     const recordAfter = await recordModel.findById(recordId).lean();
     expect(recordAfter.qty).toBe(3);
+
+    const listRes = await request(app.getHttpServer())
+      .get('/orders?page=1&limit=10')
+      .expect(200);
+
+    expect(listRes.body.items.length).toBe(1);
+    expect(listRes.body.total).toBe(1);
+    expect(listRes.body.page).toBe(1);
+    expect(listRes.body.limit).toBe(10);
+    expect(listRes.body.totalPages).toBe(1);
   });
 });
