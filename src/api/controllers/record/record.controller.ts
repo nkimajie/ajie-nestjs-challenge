@@ -91,4 +91,22 @@ export class RecordController {
   async findAll(@Query() query: RecordQueryDto): Promise<PaginatedRecords> {
     return this.recordService.findManyPaginated(query);
   }
+
+  @Get('one')
+  @ApiOperation({
+    summary: 'find one',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated list of records',
+  })
+  @ApiQuery({
+    name: 'recordId',
+    required: true,
+    description: 'record id',
+    type: String,
+  })
+  async findOne(@Query('recordId') recordId: string) {
+    return this.recordService.findOne(recordId);
+  }
 }

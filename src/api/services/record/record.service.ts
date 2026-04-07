@@ -190,4 +190,8 @@ export class RecordService {
     const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return new RegExp(escaped, 'i');
   }
+
+  async findOne(recordId: string) {
+    return this.recordModel.findById(recordId);
+  }
 }

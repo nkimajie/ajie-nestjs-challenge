@@ -9,7 +9,11 @@ export class CreateOrderRequestDto {
   @IsMongoId()
   recordId: string;
 
-  @ApiProperty({ description: 'Number of copies to order', example: 2, minimum: 1 })
+  @ApiProperty({
+    description: 'Number of copies to order',
+    example: 2,
+    minimum: 1,
+  })
   @IsInt()
   @Min(1)
   quantity: number;
