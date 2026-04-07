@@ -6,7 +6,9 @@ import { RecordCategory, RecordFormat } from '../../enum/record.enum';
 
 describe('RecordController', () => {
   let recordController: RecordController;
-  let recordService: jest.Mocked<Pick<RecordService, 'create' | 'findManyPaginated' | 'update'>>;
+  let recordService: jest.Mocked<
+    Pick<RecordService, 'create' | 'findManyPaginated' | 'update'>
+  >;
 
   beforeEach(async () => {
     recordService = {
