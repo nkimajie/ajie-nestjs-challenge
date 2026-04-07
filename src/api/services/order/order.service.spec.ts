@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { RecordCategory, RecordFormat } from '../schemas/record.enum';
+import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
 
 describe('OrderService', () => {
   let service: OrderService;
@@ -25,7 +25,9 @@ describe('OrderService', () => {
   });
 
   it('throws when record missing', async () => {
-    recordModel.findById.mockReturnValue({ exec: jest.fn().mockResolvedValue(null) });
+    recordModel.findById.mockReturnValue({
+      exec: jest.fn().mockResolvedValue(null),
+    });
     await expect(
       service.create({ recordId: '507f1f77bcf86cd799439011', quantity: 1 }),
     ).rejects.toBeInstanceOf(NotFoundException);

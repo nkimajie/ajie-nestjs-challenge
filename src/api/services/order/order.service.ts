@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Order } from '../schemas/order.schema';
-import { Record as RecordDocument } from '../schemas/record.schema';
-import { CreateOrderRequestDto } from '../dtos/create-order.request.dto';
+import { Order } from '../../schemas/order.schema';
+import { Record as RecordDocument } from '../../schemas/record.schema';
+import { CreateOrderRequestDto } from '../../dtos/create-order.request.dto';
 
 @Injectable()
 export class OrderService {

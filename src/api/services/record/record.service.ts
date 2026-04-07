@@ -8,12 +8,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
-import { Record as RecordDocument } from '../schemas/record.schema';
-import { CreateRecordRequestDTO } from '../dtos/create-record.request.dto';
-import { UpdateRecordRequestDTO } from '../dtos/update-record.request.dto';
-import { RecordQueryDto } from '../dtos/record-query.dto';
-import { MusicBrainzService } from './musicbrainz.service';
-import { RecordCategory, RecordFormat } from '../schemas/record.enum';
+import { Record as RecordDocument } from '../../schemas/record.schema';
+import { CreateRecordRequestDTO } from '../../dtos/create-record.request.dto';
+import { UpdateRecordRequestDTO } from '../../dtos/update-record.request.dto';
+import { RecordQueryDto } from '../../dtos/record-query.dto';
+import { MusicBrainzService } from '../musicbrainz/musicbrainz.service';
+import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
 
 export interface PaginatedRecords {
   items: RecordDocument[];

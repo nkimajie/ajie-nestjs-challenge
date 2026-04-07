@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { RecordService } from './record.service';
-import { MusicBrainzService } from './musicbrainz.service';
-import { RecordCategory, RecordFormat } from '../schemas/record.enum';
+import { MusicBrainzService } from '../musicbrainz/musicbrainz.service';
+import { RecordCategory, RecordFormat } from '../../schemas/record.enum';
 describe('RecordService', () => {
   let service: RecordService;
   let recordModel: {
